@@ -35,7 +35,7 @@
 # #$  njobs 110
 # #$  endset
 
-import qondor, svjqondor, os.path as osp
+import qondor, seutils, svjqondor, os.path as osp
 cmssw = qondor.init_cmssw()
 
 mz = int(qondor.get_var('mz'))
