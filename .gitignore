@@ -1,0 +1,5 @@
+qondor_*
+*.tar.gz
+*.pyc
+log_*.txt
+CMSSW_*
