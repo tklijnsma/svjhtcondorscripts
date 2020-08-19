@@ -17,15 +17,7 @@
 # Go for ~4h jobs, 1M total events, do 27 jobs with 37500 events.
 # Need about 2000MB disk at minimum, not counting the .lhe
 #$ htcondor request_disk 5000MB
-#$ max_events 8000
 #$ njobs 20
-
-# # For debugging:
-# #$ set
-# #$  mz 650
-# #$  max_events 10000
-# #$  njobs 1
-# #$  endset
 
 # Do the higher masses first
 #$ set
@@ -43,14 +35,12 @@
 
 import qondor, seutils, svjqondor, os.path as osp
 cmssw = qondor.init_cmssw()
-
 mz = int(qondor.get_var('mz'))
-max_events = int(qondor.get_var('max_events'))
 
 # CMSSW files with ~18k events are hard to manage
 # Run in blocks of 400 max_events, ~200 evts net per output
 entries_per_file = 400
-n_blocks = int((0.5*max_events) / entries_per_file)
+n_blocks = 40
 
 physics = {
     'year' : 2018,
@@ -60,10 +50,10 @@ physics = {
     'boost' : 0.,
     }
 svjqondor.download_mg_tarball(dst=osp.join(cmssw.cmssw_src, 'SVJ/Production/test'), **physics)
-part = qondor.get_proc_id() + 1
+ijob = qondor.get_proc_id() + 1000
 
 for i_block in range(n_blocks):
-    part_for_svj = 1000*part + i_block  # Also need to ensure uniqueness per block
+    part_for_svj = 1000*ijob + i_block  # Also need to ensure uniqueness per block
 
     expected_outfile = svjqondor.run_step_cmd(
         cmssw,
