@@ -14,10 +14,7 @@
 # Matching eff ~ 0.4, so about 3000/h effective
 # About 0.131 MB/evt
 
-# Go for ~4h jobs, 1M total events, do 27 jobs with 37500 events.
-# Need about 2000MB disk at minimum, not counting the .lhe
-#$ htcondor request_disk 5000MB
-#$ njobs 20
+#$ njobs 50
 
 # Do the higher masses first
 #$ set
@@ -53,7 +50,7 @@ svjqondor.download_mg_tarball(dst=osp.join(cmssw.cmssw_src, 'SVJ/Production/test
 ijob = qondor.get_proc_id() + 1000
 
 for i_block in range(n_blocks):
-    part_for_svj = 1000*ijob + i_block  # Also need to ensure uniqueness per block
+    part_for_svj = 100*ijob + i_block  # Also need to ensure uniqueness per block
 
     expected_outfile = svjqondor.run_step_cmd(
         cmssw,

@@ -1,17 +1,19 @@
-#$ file cmssw_tarball root://cmseos.fnal.gov//store/user/klijnsma/semivis/treemakerht1000/CMSSW_10_2_21_treemaker.tar.gz
+# $ file cmssw_tarball root://cmseos.fnal.gov//store/user/klijnsma/semivis/treemakerht1000/CMSSW_10_2_21_treemaker.tar.gz
+# Latest updates: Flat subjets with offset vector, no longer TLorentzVectors
+#$ file cmssw_tarball root://cmseos.fnal.gov//store/user/klijnsma/semivis/treemakerht1000/CMSSW_10_2_21_treemakerJul28.tar.gz
 
-# $ set
-# $  mz 150
-# $  items n=4 ls(root://cmseos.fnal.gov//store/user/klijnsma/semivis/miniaodht1000/Jul04_mz150/*.root)
-# $  endset
-# $ set
-# $  mz 250
-# $  items n=4 ls(root://cmseos.fnal.gov//store/user/klijnsma/semivis/miniaodht1000/Jul04_mz250/*.root)
-# $  endset
-# $ set
-# $  mz 450
-# $  items n=4 ls(root://cmseos.fnal.gov//store/user/klijnsma/semivis/miniaodht1000/Jul04_mz450/*.root)
-# $  endset
+#$ set
+#$  mz 150
+#$  items n=4 ls(root://cmseos.fnal.gov//store/user/klijnsma/semivis/miniaodht1000/Jul04_mz150/*.root)
+#$  endset
+#$ set
+#$  mz 250
+#$  items n=4 ls(root://cmseos.fnal.gov//store/user/klijnsma/semivis/miniaodht1000/Jul04_mz250/*.root)
+#$  endset
+#$ set
+#$  mz 450
+#$  items n=4 ls(root://cmseos.fnal.gov//store/user/klijnsma/semivis/miniaodht1000/Jul04_mz450/*.root)
+#$  endset
 #$ set
 #$  mz 650
 #$  items n=4 ls(root://cmseos.fnal.gov//store/user/klijnsma/semivis/miniaodht1000/Jul04_mz650/*.root)
@@ -43,6 +45,7 @@ cmssw.run_commands([
     ' deepAK8=0'
     ' deepDoubleB=0'
     ' doPDFs=0'
+    ' nestedVectors=False '
     ' debugjets=1 '
     + (' dump=1' if args.dump else '')
     + (' inputFiles=' + ','.join(qondor.get_item()))
@@ -52,6 +55,6 @@ expected_outfile = osp.join(cmssw.cmssw_src, 'TreeMaker/Production/test', 'outfi
 
 seutils.cp(
     expected_outfile,
-    'root://cmseos.fnal.gov//store/user/klijnsma/semivis/treemakerht1000/mz{0}_{1}.root'
+    'root://cmseos.fnal.gov//store/user/klijnsma/semivis/treemakerht1000_nonested/mz{0}_{1}.root'
     .format(qondor.get_var('mz'), qondor.get_proc_id())
     )

@@ -6,6 +6,8 @@
 #$ env rootsetup /cvmfs/sft.cern.ch/lcg/releases/LCG_95/ROOT/6.16.00/x86_64-slc6-gcc7-opt/ROOT-env.sh
 #$ env SCRAM_ARCH slc6_amd64_gcc700
 
+#$ sites_blacklist *_RU_* *FNAL* *IFCA* T2_UA_KIPT
+
 #$ pip install svjqondor
 #$ file cmssw_tarball root://cmseos.fnal.gov//store/user/klijnsma/semivis/cmssw_tarballs/CMSSW_10_2_18_htfilterprintout.tar.gz
 #$ htcondor request_memory 4096MB
@@ -17,32 +19,38 @@
 # mz150: 25, mz250: 8, mz450: 3, mz650: 1
 # Limit mz650 to 20 jobs max, really don't need this many events
 
-# $ set
-# $     mz 150
-# $     items b=1 nmax=1 \ 
-# $       ls(root://cmseos.fnal.gov//store/user/klijnsma/semivis/genht1000/*mz150*/*.root)
-# $     endset
 
 #$ set
 #$     mz 150
 #$     items b=25 \ 
-#$       ls(root://cmseos.fnal.gov//store/user/klijnsma/semivis/genht1000/*mz150*/*.root)
+#$       ls(root://cmseos.fnal.gov//store/user/lpcsusyhad/SVJ2017/boosted/gen/ht1000_Aug07_mz150/*.root)
 #$     endset
 #$ set
 #$     mz 250
 #$     items b=8 \ 
-#$       ls(root://cmseos.fnal.gov//store/user/klijnsma/semivis/genht1000/*mz250*/*.root)
+#$       ls(root://cmseos.fnal.gov//store/user/lpcsusyhad/SVJ2017/boosted/gen/ht1000_Aug07_mz250/*.root)
 #$     endset
-#$ set
-#$     mz 450
-#$     items b=3 \ 
-#$       ls(root://cmseos.fnal.gov//store/user/klijnsma/semivis/genht1000/*mz450*/*.root)
-#$     endset
-#$ set
-#$     mz 650
-#$     items b=1 nmax=20 \ 
-#$       ls(root://cmseos.fnal.gov//store/user/klijnsma/semivis/genht1000/*mz650*/*.root)
-#$     endset
+
+# $ set
+# $     mz 150
+# $     items b=25 \ 
+# $       ls(root://cmseos.fnal.gov//store/user/klijnsma/semivis/genht1000/*mz150*/*.root)
+# $     endset
+# $ set
+# $     mz 250
+# $     items b=8 \ 
+# $       ls(root://cmseos.fnal.gov//store/user/klijnsma/semivis/genht1000/*mz250*/*.root)
+# $     endset
+# $ set
+# $     mz 450
+# $     items b=3 \ 
+# $       ls(root://cmseos.fnal.gov//store/user/klijnsma/semivis/genht1000/*mz450*/*.root)
+# $     endset
+# $ set
+# $     mz 650
+# $     items b=1 nmax=20 \ 
+# $       ls(root://cmseos.fnal.gov//store/user/klijnsma/semivis/genht1000/*mz650*/*.root)
+# $     endset
 
 import os.path as osp, argparse, re
 import qondor, seutils, svjqondor, uuid
@@ -68,6 +76,6 @@ for i_rootfile, rootfile in enumerate(qondor.get_item()):
     expected_outfile = svjqondor.run_sim_reco_miniaod(cmssw, part=svjpart, rootfile=rootfile, **physics)
     seutils.cp(
         expected_outfile,
-        'root://cmseos.fnal.gov//store/user/lpcsusyhad/SVJ2017/boosted/miniaod/ht1000_{date}_mz{mz}/{part}_{i_rootfile}.root'
+        'root://cmseos.fnal.gov//store/user/lpcsusyhad/SVJ2017/boosted/miniaod/ht1000_{date}_mz{mz}_Aug07genonly/{part}_{i_rootfile}.root'
         .format(date=qondor.get_submission_time().strftime('%b%d'), mz=mz, part=part, i_rootfile=i_rootfile)
         )
