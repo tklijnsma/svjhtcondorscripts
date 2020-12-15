@@ -57,7 +57,7 @@ for bkg in bkgs:
     # Skip anything except qcd (for Sara), remove this line if you want to do all bkgs
     if not 'qcd' in bkg.lower(): continue
     for i in range(50):
-        submit(bkg=bkg, i_file=i)
+        submit(bkg=bkg, i_file=i, transfer_files=['~/CMSSW_10_2_21_latest_el7_treemaker.tar.gz'])
 """# endsubmit
 
 import qondor, seutils, os.path as osp
